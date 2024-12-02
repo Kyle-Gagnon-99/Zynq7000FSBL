@@ -1,0 +1,8 @@
+{
+    "rust-analyzer.cargo.target": "zynq-target.json",
+    "rust-analyzer.cargo.allTargets": false,
+    "rust-analyzer.completion.autoimport.enable": true,
+    "rust-analyzer.check.allTargets": false,
+    "rust-analyzer.check.extraArgs": ["--target", "zynq-target.json"],
+    "rust-analyzer.cargo.features": ["uart0", "power_saving"]
+}

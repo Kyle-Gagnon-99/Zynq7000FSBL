@@ -1,0 +1,12 @@
+[package]
+name = "zynq-hal"
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+zynq-pac = { path = "../zynq-pac" }
+cortex-a9 = { path = "../cortex-a9" }
+
+[features]
+uart0 = []

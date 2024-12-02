@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = ["cortex-a9", "registers", "zynq-hal", "zynq-pac"]
+
+[workspace.package]
+authors = ["Kyle Gagnon"]
+version = "0.1.0"
+edition = "2021"
+
+[profile.dev]
+debug = true
+panic = "abort"
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+incremental = false
+rpath = false
+debug = false
+panic = "abort"

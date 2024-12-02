@@ -1,0 +1,11 @@
+[package]
+name = "cortex-a9"
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+
+[features]
+power_saving = []
+default = ["power_saving"]

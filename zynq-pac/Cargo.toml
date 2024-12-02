@@ -1,0 +1,11 @@
+[package]
+name = "zynq-pac"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+registers = { path = "../registers" }
+volatile-register = "0.2.2"
+
+[features]
+uart = []
