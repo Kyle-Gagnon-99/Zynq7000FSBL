@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 registers = { path = "../registers" }
+register-macro = { path = "../register_macro" }
 volatile-register = "0.2.2"
 
 [features]

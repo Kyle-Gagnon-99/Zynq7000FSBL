@@ -31,11 +31,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "register_macro"
+name = "register-macro"
 version = "0.1.0"
 dependencies = [
  "proc-macro2",
  "quote",
+ "registers",
  "syn",
 ]
 
@@ -92,6 +93,7 @@ dependencies = [
 name = "zynq-pac"
 version = "0.1.0"
 dependencies = [
+ "register-macro",
  "registers",
  "volatile-register",
 ]

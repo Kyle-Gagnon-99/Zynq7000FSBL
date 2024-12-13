@@ -5,7 +5,7 @@ pub use vcell::VolatileCell;
 pub use volatile_register::{RO, RW, WO};
 
 pub trait VolatileRegister<RawType: Sized> {
-    pub fn get_inner(&self) -> &VolatileCell<RawType>;
+    fn get_inner(&self) -> &VolatileCell<RawType>;
 }
 
 /// Converts a builder struct into raw bits and vice versa
@@ -43,7 +43,8 @@ where
 }
 
 /// A readable and writable register
-pub trait RegisterRW: RegisterR<Builder, RawType> + RegisterW<Builder, RawType>
+pub trait RegisterRW<Builder, RawType>:
+    RegisterRO<Builder, RawType> + RegisterWO<Builder, RawType>
 where
     RawType: Sized,
     Builder: Copy + Clone + FromBits<RawType> + Default,
