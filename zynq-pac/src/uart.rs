@@ -2,10 +2,11 @@ use register_macro::register;
 
 #[register(32, u32)]
 struct UartControlRegisterTest {
+    #[bits(0:2, default = 0b11)]
     pub control: u8,
 }
 
 fn main() {
     let reg = UartControlRegisterTest { control: 0 };
-    reg.please_work();
+    let test = UartControlRegisterTest::test_control();
 }
