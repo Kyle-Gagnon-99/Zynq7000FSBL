@@ -6,6 +6,7 @@ use quote::{format_ident, quote, ToTokens};
 use syn::{parse::Parse, spanned::Spanned, LitBool, Token};
 
 use registers;
+use volatile_register;
 
 /// An enum used to represent if a bit field is a single bit or a range of bits
 #[derive(Debug, Clone, Copy)]
@@ -14,7 +15,7 @@ enum BitRepresentation {
     Range(usize, usize),
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 enum TypeClass {
     /// A boolean type
     Bool,
@@ -35,82 +36,26 @@ enum Access {
     None,
 }
 
-/// A structure that represents
-///
-/// A field will have the following annotations over the field name:
-/// #[bitfield(0:1, access = RW, default = 0)] or #[bitfield(0)]
-/// field_name: (bool, u8, u16, enum)
-///
-/// The first number is the bit range. So a single number means a single bit and two numbers in the format of "a:b" means a range of bits.
-/// "a" should be less than "b" and both should be less than the size of the register. This will translate to a range of bits from "a" to "b" inclusive.
-///
-/// The access specifier is optional and can be one of the following:
-/// - RW: Read/Write
-/// - R: Read
-/// - W: Write
-/// - WTC: Write to clear
-///
-/// If no access specifier is provided, it defaults to RW.
-///
-/// The default specifier is optional as well and will set the default value of the field. If no default value is provided, it will use the type's default value.
-/// This means if the field is a bool, it will default to false. If it is an integer, it will default to 0. If it is an enum, it needs to implement the Default trait.
-///
-/// After the annotation will be the declaration of the field. The declaration should be a type (bool, u8, u16, u32, etc.) or even an Enum
-/// If it is an Enum, then the Enum should have a #[repr(uSize)] attribute where uSize is the size of the register. Since this library
-/// relies on the registers crate, the Enum should be implemented with the FromBits and IntoBits traits.
 struct BitField {
+    ident: syn::Ident,
     bits: BitRepresentation,
-    access: Access,
     ty: syn::Type,
-    field_name: syn::Ident,
-    field_type: syn::Type,
-}
-impl BitField {
-    fn new_from_field(field: &syn::Field) -> Self {
-        let bit_field = field
-            .attrs
-            .iter()
-            .find(|attr| attr.path().is_ident("bitfield"));
-
-        match bit_field {
-            Some(bit_field) => {
-                let BitFieldParams {
-                    bits,
-                    access,
-                    default,
-                } = syn::parse2(bit_field.into_token_stream()).unwrap();
-
-                BitField {
-                    bits,
-                    access,
-                    ty: field.ty.clone(),
-                    field_name: field.ident.clone().unwrap(),
-                    field_type: field.ty.clone(),
-                }
-            }
-            None => {
-                let bits = BitRepresentation::Single(0);
-                let access = Access::ReadWrite;
-                let ty = field.ty.clone();
-                let field_name = field.ident.clone().unwrap();
-                let field_type = field.ty.clone();
-
-                BitField {
-                    bits,
-                    access,
-                    ty,
-                    field_name,
-                    field_type,
-                }
-            }
-        }
-    }
+    default: TokenStream,
+    access: Access,
 }
 
 struct BitFieldParams {
+    /// The bit representation of the field
     bits: BitRepresentation,
+
+    /// The access specifier of the field
     access: Access,
-    default: syn::Expr,
+
+    /// The default value of the field
+    default: Option<syn::Expr>,
+
+    /// If it is an enum, then the native type of the enum
+    repr: Option<syn::Type>,
 }
 
 /// The parameters of the register attribute
@@ -153,19 +98,30 @@ fn register_inner(args: TokenStream, input: TokenStream) -> syn::Result<TokenStr
         ));
     };
 
-    // Get the fields
+    let builder_name = format_ident!("{}Builder", name);
+
+    // Parse the fields into a TokenStream
     let fields = field
         .named
         .iter()
-        .map(BitField::new_from_field)
-        //.map(|f| f.unwrap())
-        .map(|f| f.into_token_stream())
+        .map(BitField::new)
+        .map(|bf| bf.map(|bf| bf.into_token_stream()).unwrap())
         .collect::<TokenStream>();
 
     Ok(quote! {
-        #input
+        pub struct #name {
+            value: volatile_register::RW<#ty>,
+        }
 
-        impl #name {
+        pub struct #builder_name {
+            pub bits: #ty
+        }
+
+        impl #builder_name {
+            pub fn new() -> Self {
+                Self { bits: #ty::default() }
+            }
+
             #fields
         }
     })
@@ -273,9 +229,31 @@ impl Parse for BitFieldParams {
             None
         };
 
+        // Convert the bit range to a BitRepresentation
+        let bits = if let Some(upper_bound) = upper_bound {
+            let lower = lower_bound.base10_parse::<usize>().unwrap();
+            let upper = upper_bound.base10_parse::<usize>().unwrap();
+
+            if lower > upper {
+                return Err(s_err(
+                    upper_bound.span(),
+                    "Upper bound is less than the lower bound",
+                ));
+            }
+
+            BitRepresentation::Range(lower, upper)
+        } else {
+            let bit = lower_bound.base10_parse::<usize>().unwrap();
+            BitRepresentation::Single(bit)
+        };
+
         // Set up defaults for the bit field information
-        let mut access = Access::ReadWrite;
-        let mut default = syn::Expr::Verbatim(Default::default());
+        let mut return_type = Self {
+            bits,
+            access: Access::ReadWrite,
+            default: None,
+            repr: None,
+        };
 
         // Loop through the rest of the attributes (which is separated by a comma)
         while <Token![,]>::parse(input).is_ok() {
@@ -285,44 +263,19 @@ impl Parse for BitFieldParams {
             // Check if the attribute is an access specifier
             if ident == "access" {
                 input.parse::<syn::Token![=]>()?;
-                access = input.parse::<Access>()?;
+                return_type.access = input.parse::<Access>()?;
             } else if ident == "default" {
                 input.parse::<syn::Token![=]>()?;
-                default = input.parse::<syn::Expr>()?;
+                return_type.default = Some(input.parse::<syn::Expr>()?);
+            } else if ident == "repr" {
+                input.parse::<syn::Token![=]>()?;
+                return_type.repr = Some(input.parse::<syn::Type>()?);
             } else {
                 return Err(s_err(ident.span(), "Invalid attribute"));
             }
         }
 
-        // Check if the upper bound is present
-        let bits = if let Some(upper_bound) = upper_bound {
-            // Parse the lower and upper bounds
-            let lower = lower_bound.base10_parse::<usize>().unwrap();
-            let upper = upper_bound.base10_parse::<usize>().unwrap();
-
-            // Check if the bounds are valid
-            if lower > upper {
-                return Err(s_err(
-                    upper_bound.span(),
-                    "Upper bound is less than the lower bound",
-                ));
-            }
-
-            // Return the range of bits
-            BitRepresentation::Range(lower, upper)
-        } else {
-            // Parse the single bit
-            let bit = lower_bound.base10_parse::<usize>().unwrap();
-
-            // Return the single bit
-            BitRepresentation::Single(bit)
-        };
-
-        Ok(BitFieldParams {
-            bits,
-            access,
-            default,
-        })
+        Ok(return_type)
     }
 }
 
@@ -331,26 +284,155 @@ impl core::default::Default for BitFieldParams {
         BitFieldParams {
             bits: BitRepresentation::Single(0),
             access: Access::ReadWrite,
-            default: syn::Expr::Verbatim(Default::default()),
+            default: Some(syn::parse_quote!(false)),
+            repr: None,
         }
     }
 }
 
-impl ToTokens for BitField {
-    fn to_tokens(&self, tokens: &mut TokenStream) {
-        let field_name = &self.field_name;
-        let field_type = &self.field_type;
-
-        let test_func_with_name = format_ident!("test_{}", field_name);
-
-        tokens.extend(quote! {
-            fn #test_func_with_name() -> #field_type {
-                0
+impl BitField {
+    pub fn new(syn_field: &syn::Field) -> syn::Result<Self> {
+        // First, parse the attribute of the field to a BitFieldParams
+        let bit_field_params = syn_field.attrs.iter().find_map(|attr| {
+            if attr.path().is_ident("bits") {
+                attr.parse_args::<BitFieldParams>().ok()
+            } else {
+                None
             }
         });
+
+        // Check if the attribute is present
+        let bit_field_params = match bit_field_params {
+            Some(params) => params,
+            None => return Err(s_err(syn_field.span(), "No bit field attribute found")),
+        };
+
+        // Get the type of the field and match it to a TypeClass
+        let (ty_class, bits) = to_types(&syn_field.ty);
+
+        // If the type is a boolean, then the number of bits should be 1
+        if ty_class == TypeClass::Bool && bits != 1 {
+            return Err(s_err(
+                syn_field.ty.span(),
+                "Boolean type should only be 1 bit",
+            ));
+        };
+
+        // If the type is an enum (which would be reported as Other), check if the repr attribute is present
+        if ty_class == TypeClass::Other && bit_field_params.repr.is_none() {
+            return Err(s_err(
+                syn_field.ty.span(),
+                "Enum type should have a repr attribute",
+            ));
+        };
+
+        // If the type is an enum, the number of bits should be at least the same size or smaller than the native type
+        if ty_class == TypeClass::Other {
+            let repr = bit_field_params.repr.as_ref().unwrap();
+            let (_, repr_bits) = to_types(repr);
+
+            if bits > repr_bits {
+                return Err(s_err(
+                    syn_field.ty.span(),
+                    "Size of enum is smaller than the type",
+                ));
+            }
+        };
+
+        // Check if the default value is present
+        let default = match bit_field_params.default {
+            Some(default) => default.into_token_stream(),
+            None => syn::parse_quote!(false),
+        };
+
+        Ok(BitField {
+            ident: syn_field.ident.clone().unwrap(),
+            bits: bit_field_params.bits,
+            ty: syn_field.ty.clone(),
+            default,
+            access: bit_field_params.access,
+        })
     }
 }
 
-fn parse_field(field: &syn::Field) -> syn::Result<BitField> {
-    Ok(BitField::new_from_field(field))
+impl ToTokens for BitField {
+    fn into_token_stream(self) -> TokenStream
+    where
+        Self: Sized,
+    {
+        let BitField {
+            ident,
+            bits,
+            ty,
+            default,
+            access,
+        } = self;
+
+        let getter_name = format_ident!("{}", ident);
+        let setter_name = format_ident!("with_{}", ident);
+
+        let start_bit = match bits {
+            BitRepresentation::Single(bit) => bit,
+            BitRepresentation::Range(start, _) => start,
+        };
+
+        let end_bit = match bits {
+            BitRepresentation::Single(bit) => bit,
+            BitRepresentation::Range(_, end) => end,
+        };
+
+        let get_bits = if start_bit == end_bit {
+            quote! {
+                self.bits.get_bit(#start_bit)
+            }
+        } else {
+            quote! {
+                self.bits.get_bits(#start_bit..=#end_bit)
+            }
+        };
+
+        let set_bits = if start_bit == end_bit {
+            quote! {
+                self.bits.set_bit(#start_bit, (value as #ty).into())
+            }
+        } else {
+            quote! {
+                self.bits.set_bits(#start_bit..=#end_bit, (value as #ty).into())
+            }
+        };
+
+        let getter_function = if matches!(access, Access::Read | Access::ReadWrite) {
+            quote! {
+                pub fn #getter_name(&self) -> #ty {
+                    #get_bits
+                }
+            }
+        } else {
+            quote! {}
+        };
+
+        let setter_function = if matches!(access, Access::Write | Access::ReadWrite) {
+            quote! {
+                pub fn #setter_name(&mut self, value: #ty) -> &mut Self {
+                    #set_bits;
+                    self
+                }
+            }
+        } else {
+            quote! {}
+        };
+
+        quote! {
+            #getter_function
+            #setter_function
+        }
+    }
+
+    fn to_token_stream(&self) -> TokenStream {
+        self.into_token_stream()
+    }
+
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        tokens.extend(self.into_token_stream());
+    }
 }

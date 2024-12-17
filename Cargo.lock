@@ -38,6 +38,7 @@ dependencies = [
  "quote",
  "registers",
  "syn",
+ "volatile-register",
 ]
 
 [[package]]
