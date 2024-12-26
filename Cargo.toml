@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["cortex-a9", "register_macro", "registers", "zynq-hal", "zynq-pac"]
+members = ["cortex-a9", "registers", "zynq-bin-test", "zynq-hal", "zynq-pac"]
 
 [workspace.package]
 authors = ["Kyle Gagnon"]

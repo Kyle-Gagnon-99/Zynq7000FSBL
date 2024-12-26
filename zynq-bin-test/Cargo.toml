@@ -1,0 +1,8 @@
+[package]
+name = "zynq-bin-test"
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+zynq-hal = { path = "../zynq-hal" }

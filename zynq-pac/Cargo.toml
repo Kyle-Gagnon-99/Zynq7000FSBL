@@ -4,9 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-registers = { path = "../registers" }
-register-macro = { path = "../register_macro" }
+bit_field = "0.10.2"
 volatile-register = "0.2.2"
-
-[features]
-uart = []
+        

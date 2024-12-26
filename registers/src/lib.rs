@@ -13,10 +13,10 @@ pub trait VolatileRegister<RawType: Sized> {
 /// RawType: The raw bits type (a primitive integer type)
 pub trait FromBits<RawType: Sized> {
     /// Converts the raw bits into the builder
-    fn from_bits(bits: RawType);
+    fn from_bits(bits: RawType) -> Self;
 
     /// Converts the builder into the raw bits
-    fn into_bits() -> RawType;
+    fn into_bits(&self) -> RawType;
 }
 
 /// A readable register
