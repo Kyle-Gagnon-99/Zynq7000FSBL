@@ -1,0 +1,10 @@
+[package]
+name = "zrbl"
+description = "Zynq Rust Boot Loader"
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+zynq-hal = { path = "../zynq-hal" }
+zrbl-support = { path = "../zrbl-support" }

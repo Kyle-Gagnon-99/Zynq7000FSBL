@@ -6,11 +6,11 @@ fn main() {
     let out_dir = &PathBuf::from(&out);
 
     // Put the linker script somewhere the linker can find it
-    File::create(out_dir.join("memory.x"))
+    File::create(out_dir.join("fsbl.x"))
         .unwrap()
-        .write_all(include_bytes!("memory.x"))
+        .write_all(include_bytes!("fsbl.x"))
         .unwrap();
     println!("cargo:rustc-link-search={}", out_dir.display());
 
-    println!("cargo:rerun-if-changed=memory.x");
+    println!("cargo:rerun-if-changed=fsbl.x");
 }

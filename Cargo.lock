@@ -11,6 +11,17 @@ checksum = "dc827186963e592360843fb5ba4b973e145841266c1357f7180c43526f2e5b61"
 [[package]]
 name = "cortex-a9"
 version = "0.1.0"
+dependencies = [
+ "bit_field",
+ "registers",
+ "zynq-pac",
+]
+
+[[package]]
+name = "r0"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd7a31eed1591dcbc95d92ad7161908e72f4677f8fabf2a32ca49b4237cbf211"
 
 [[package]]
 name = "registers"
@@ -37,10 +48,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "zynq-bin-test"
+name = "zrbl"
 version = "0.1.0"
 dependencies = [
+ "zrbl-support",
  "zynq-hal",
+]
+
+[[package]]
+name = "zrbl-support"
+version = "0.1.0"
+dependencies = [
+ "cortex-a9",
+ "r0",
+ "vcell",
 ]
 
 [[package]]

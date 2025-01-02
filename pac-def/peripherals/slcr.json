@@ -1,0 +1,2635 @@
+{
+    "$schema": "../../../RustPACGen/peripheral-schema.json",
+    "base_address": "0xF8000000",
+    "name": "slcr",
+    "registers": [
+        {
+            "name": "SCL",
+            "offset": "0x0",
+            "size": 32,
+            "access": "read-write",
+            "description": "Secure Configuration Lock",
+            "fields": [
+                {
+                    "name": "LOCK",
+                    "bit_range": "0",
+                    "description": "Secure Configuration Lock"
+                }
+            ]
+        },
+        {
+            "name": "SLCR_LOCK",
+            "offset": "0x4",
+            "size": 32,
+            "access": "write-only",
+            "description": "SLCR Write Protection Lock",
+            "fields": [
+                {
+                    "name": "LOCK",
+                    "bit_range": "[15:0]",
+                    "description": "Write the lock key, 0x767B, to write protect the slcr registers: all slcr registers, 0xF800_0000 to 0xF800_0B74, are write protected until the lock key is written to the SLCR_UNLOCK register.",
+                    "default_value": 30331
+                }
+            ]
+        },
+        {
+            "name": "SLCR_UNLOCK",
+            "offset": "0x8",
+            "access": "write-only",
+            "size": 32,
+            "description": "SLCR Write Protection Unlock",
+            "fields": [
+                {
+                    "name": "UNLOCK",
+                    "bit_range": "[15:0]",
+                    "description": "Write the unlock key, 0xDF0D, to unlock the slcr registers: all slcr registers, 0xF800_0000 to 0xF800_0B74, are write protected until the unlock key is written to the SLCR_UNLOCK register.",
+                    "default_value": 57101
+                }
+            ]
+        },
+        {
+            "name": "SLCR_LOCKSTA",
+            "offset": "0xC",
+            "size": 32,
+            "access": "read-only",
+            "description": "SLCR Write Protection Status",
+            "fields": [
+                {
+                    "name": "LOCKSTA",
+                    "bit_range": "0",
+                    "description": "SLCR Write Protection Status"
+                }
+            ]
+        },
+        {
+            "name": "ARM_PLL_CTRL",
+            "offset": "0x100",
+            "size": 32,
+            "access": "read-write",
+            "description": "ARM PLL Control",
+            "fields": [
+                {
+                    "name": "PLL_RESET",
+                    "bit_range": "0",
+                    "description": "ARM PLL Reset"
+                },
+                {
+                    "name": "PLL_PWRDWN",
+                    "bit_range": "1",
+                    "description": "ARM PLL Power-Down"
+                },
+                {
+                    "name": "PLL_BYPASS_QUAL",
+                    "bit_range": "3",
+                    "description": "Select the source for the ARM PLL Bypass Contrl",
+                    "default_value": 1
+                },
+                {
+                    "name": "PLL_BYPASS_FORCE",
+                    "bit_range": "4",
+                    "description": "ARM PLL Bypass override control"
+                },
+                {
+                    "name": "PLL_FDIV",
+                    "bit_range": "[18:12]",
+                    "description": "Provide the feedback divisor for the PLL.",
+                    "default_value": 26
+                }
+            ]
+        },
+        {
+            "name": "DDR_PLL_CTRL",
+            "offset": "0x104",
+            "size": 32,
+            "access": "read-write",
+            "description": "ARM PLL Control",
+            "fields": [
+                {
+                    "name": "PLL_RESET",
+                    "bit_range": "0",
+                    "description": "ARM PLL Reset"
+                },
+                {
+                    "name": "PLL_PWRDWN",
+                    "bit_range": "1",
+                    "description": "ARM PLL Power-Down"
+                },
+                {
+                    "name": "PLL_BYPASS_QUAL",
+                    "bit_range": "3",
+                    "description": "Select the source for the ARM PLL Bypass Contrl",
+                    "default_value": 1
+                },
+                {
+                    "name": "PLL_BYPASS_FORCE",
+                    "bit_range": "4",
+                    "description": "ARM PLL Bypass override control"
+                },
+                {
+                    "name": "PLL_FDIV",
+                    "bit_range": "[18:12]",
+                    "description": "Provide the feedback divisor for the PLL.",
+                    "default_value": 26
+                }
+            ]
+        },
+        {
+            "name": "IO_PLL_CTRL",
+            "offset": "0x108",
+            "size": 32,
+            "access": "read-write",
+            "description": "ARM PLL Control",
+            "fields": [
+                {
+                    "name": "PLL_RESET",
+                    "bit_range": "0",
+                    "description": "ARM PLL Reset"
+                },
+                {
+                    "name": "PLL_PWRDWN",
+                    "bit_range": "1",
+                    "description": "ARM PLL Power-Down"
+                },
+                {
+                    "name": "PLL_BYPASS_QUAL",
+                    "bit_range": "3",
+                    "description": "Select the source for the ARM PLL Bypass Contrl",
+                    "default_value": 1
+                },
+                {
+                    "name": "PLL_BYPASS_FORCE",
+                    "bit_range": "4",
+                    "description": "ARM PLL Bypass override control"
+                },
+                {
+                    "name": "PLL_FDIV",
+                    "bit_range": "[18:12]",
+                    "description": "Provide the feedback divisor for the PLL.",
+                    "default_value": 26
+                }
+            ]
+        },
+        {
+            "name": "PLL_STATUS",
+            "offset": "0x10C",
+            "size": 32,
+            "access": "read-only",
+            "description": "PLL Status",
+            "fields": [
+                {
+                    "name": "ARM_PLL_LOCK",
+                    "bit_range": "0",
+                    "description": "ARM PLL Lock Status"
+                },
+                {
+                    "name": "DDR_PLL_LOCK",
+                    "bit_range": "1",
+                    "description": "DDR PLL Lock Status"
+                },
+                {
+                    "name": "IO_PLL_LOCK",
+                    "bit_range": "2",
+                    "description": "IO PLL Lock Status"
+                },
+                {
+                    "name": "ARM_PLL_STABLE",
+                    "bit_range": "3",
+                    "description": "ARM PLL Stable Status"
+                },
+                {
+                    "name": "DDR_PLL_STABLE",
+                    "bit_range": "4",
+                    "description": "DDR PLL Stable Status"
+                },
+                {
+                    "name": "IO_PLL_STABLE",
+                    "bit_range": "5",
+                    "description": "IO PLL Stable Status"
+                }
+            ]
+        },
+        {
+            "name": "ARM_PLL_CFG",
+            "offset": "0x110",
+            "size": 32,
+            "access": "read-write",
+            "description": "ARM PLL Configuration",
+            "fields": [
+                {
+                    "name": "PLL_RES",
+                    "bit_range": "[7:4]",
+                    "description": "Drive the PLL_RES[3:0] input of the PLL to set the PLL loop filter resistor control",
+                    "default_value": 10
+                },
+                {
+                    "name": "PLL_CP",
+                    "bit_range": "[11:8]",
+                    "description": "Drive the PLL_CP[3:0] input of the PLL to set the PLL loop filter charge pump control",
+                    "default_value": 14
+                },
+                {
+                    "name": "LOCK_CNT",
+                    "bit_range": "[21:12]",
+                    "description": "Drive the LOCK_CNT[9:0] input of the PLL to set the number of clock cycles the PLL needs to have clkref and clkfb aligned with a certain window before saying locked."
+                }
+            ]
+        },
+        {
+            "name": "DDR_PLL_CFG",
+            "offset": "0x114",
+            "size": 32,
+            "access": "read-write",
+            "description": "DDR PLL Configuration",
+            "fields": [
+                {
+                    "name": "PLL_RES",
+                    "bit_range": "[7:4]",
+                    "description": "Drive the PLL_RES[3:0] input of the PLL to set the PLL loop filter resistor control",
+                    "default_value": 10
+                },
+                {
+                    "name": "PLL_CP",
+                    "bit_range": "[11:8]",
+                    "description": "Drive the PLL_CP[3:0] input of the PLL to set the PLL loop filter charge pump control",
+                    "default_value": 14
+                },
+                {
+                    "name": "LOCK_CNT",
+                    "bit_range": "[21:12]",
+                    "description": "Drive the LOCK_CNT[9:0] input of the PLL to set the number of clock cycles the PLL needs to have clkref and clkfb aligned with a certain window before saying locked."
+                }
+            ]
+        },
+        {
+            "name": "IO_PLL_CFG",
+            "offset": "0x118",
+            "size": 32,
+            "access": "read-write",
+            "description": "IO PLL Configuration",
+            "fields": [
+                {
+                    "name": "PLL_RES",
+                    "bit_range": "[7:4]",
+                    "description": "Drive the PLL_RES[3:0] input of the PLL to set the PLL loop filter resistor control",
+                    "default_value": 10
+                },
+                {
+                    "name": "PLL_CP",
+                    "bit_range": "[11:8]",
+                    "description": "Drive the PLL_CP[3:0] input of the PLL to set the PLL loop filter charge pump control",
+                    "default_value": 14
+                },
+                {
+                    "name": "LOCK_CNT",
+                    "bit_range": "[21:12]",
+                    "description": "Drive the LOCK_CNT[9:0] input of the PLL to set the number of clock cycles the PLL needs to have clkref and clkfb aligned with a certain window before saying locked."
+                }
+            ]
+        },
+        {
+            "name": "ARM_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x120",
+            "size": 32,
+            "description": "ARM Clock Control",
+            "fields": [
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Select the source used to generate the CPU clock",
+                    "enums": {
+                        "name": "ArmPllClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the CPU clock source",
+                    "default_value": 4
+                },
+                {
+                    "name": "CPU_6OR4XCLKACT",
+                    "bit_range": "24",
+                    "description": "CPU_6x4x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CPU_3OR2XCLKACT",
+                    "bit_range": "25",
+                    "description": "CPU_3x2x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CPU_2XCLKACT",
+                    "bit_range": "26",
+                    "description": "CPU_2x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CPU_1XCLKACT",
+                    "bit_range": "27",
+                    "description": "CPU_1x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CPU_PERI_CLKACT",
+                    "bit_range": "28",
+                    "description": "Clock active",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "DDR_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x124",
+            "size": 32,
+            "description": "DDR Clock Control",
+            "fields": [
+                {
+                    "name": "DDR_3XCLKACT",
+                    "bit_range": "0",
+                    "description": "DDR_3x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "DDR_2XCLKACT",
+                    "bit_range": "1",
+                    "description": "DDR_2x Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "DDR_3XCLK_DIVISOR",
+                    "bit_range": "[25:20]",
+                    "description": "Frequency divisor for the DDR_3x clock source",
+                    "default_value": 4
+                },
+                {
+                    "name": "DDR_2XCLK_DIVISOR",
+                    "bit_range": "[31:26]",
+                    "description": "Frequency divisor for the DDR_2x clock source",
+                    "default_value": 6
+                }
+            ]
+        },
+        {
+            "name": "DCI_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x128",
+            "size": 32,
+            "description": "DCI Clock Control",
+            "fields": [
+                {
+                    "name": "CLKACT",
+                    "bit_range": "0",
+                    "description": "DCI Clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "DIVISOR0",
+                    "bit_range": "[13:8]",
+                    "description": "Provides the divisor used to divide the source clock to generate the required generated clock frequency.",
+                    "default_value": 50
+                },
+                {
+                    "name": "DIVISOR1",
+                    "bit_range": "[25:20]",
+                    "description": "Provides the divisor used to divide the source clock to generate the required generated clock frequency.",
+                    "default_value": 30
+                }
+            ]
+        },
+        {
+            "name": "APER_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x12C",
+            "size": 32,
+            "description": "AMBA Peripheral Clock Control",
+            "fields": [
+                {
+                    "name": "DMA_CPU_2XCLKACT",
+                    "bit_range": "0",
+                    "description": "DMA controller AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "USB0_CPU_1XCLKACT",
+                    "bit_range": "2",
+                    "description": "USB controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "USB1_CPU_1XCLKACT",
+                    "bit_range": "3",
+                    "description": "USB controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "GEM0_CPU_1XCLKACT",
+                    "bit_range": "6",
+                    "description": "Gigabit Ethernet 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "GEM1_CPU_1XCLKACT",
+                    "bit_range": "7",
+                    "description": "Gigabit Ethernet 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "SDIO0_CPU_1XCLKACT",
+                    "bit_range": "10",
+                    "description": "SDIO controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "SDIO1_CPU_1XCLKACT",
+                    "bit_range": "11",
+                    "description": "SDIO controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "SPI0_CPU_1XCLKACT",
+                    "bit_range": "14",
+                    "description": "SPI controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "SPI1_CPU_1XCLKACT",
+                    "bit_range": "15",
+                    "description": "SPI controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CAN0_CPU_1XCLKACT",
+                    "bit_range": "16",
+                    "description": "CAN controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "CAN1_CPU_1XCLKACT",
+                    "bit_range": "17",
+                    "description": "CAN controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "I2C0_CPU_1XCLKACT",
+                    "bit_range": "18",
+                    "description": "I2C controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "I2C1_CPU_1XCLKACT",
+                    "bit_range": "19",
+                    "description": "I2C controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "UART0_CPU_1XCLKACT",
+                    "bit_range": "20",
+                    "description": "UART controller 0 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "UART1_CPU_1XCLKACT",
+                    "bit_range": "21",
+                    "description": "UART controller 1 AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "GPIO_CPU_1XCLKACT",
+                    "bit_range": "22",
+                    "description": "GPIO controller AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "LQSPI_CPU_1XCLKACT",
+                    "bit_range": "23",
+                    "description": "Quad SPI controller AMBA clock control",
+                    "default_value": 1
+                },
+                {
+                    "name": "SMC_CPU_1XCLKACT",
+                    "bit_range": "24",
+                    "description": "Static Memory controller AMBA clock control",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "USB0_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x130",
+            "size": 32,
+            "description": "USB 0 ULPI Clock Control"
+        },
+        {
+            "name": "USB1_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x134",
+            "size": 32,
+            "description": "USB 1 ULPI Clock Control"
+        },
+        {
+            "name": "GEM0_RCLK_CTRL",
+            "access": "read-write",
+            "offset": "0x138",
+            "size": 32,
+            "description": "GigE 0 Rx Clock and Rx Signals Control"
+        },
+        {
+            "name": "GEM1_RCLK_CTRL",
+            "access": "read-write",
+            "offset": "0x13C",
+            "size": 32,
+            "description": "GigE 1 Rx Clock and Rx Signals Control"
+        },
+        {
+            "name": "GEM0_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x140",
+            "size": 32,
+            "description": "GigE 0 Ref Clock Control"
+        },
+        {
+            "name": "GEM1_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x144",
+            "size": 32,
+            "description": "GigE 1 Ref Clock Control"
+        },
+        {
+            "name": "SMC_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x148",
+            "size": 32,
+            "description": "Static Memory Controller Clock Control"
+        },
+        {
+            "name": "LQSPI_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x14C",
+            "size": 32,
+            "description": "Quad SPI Controller Clock Control"
+        },
+        {
+            "name": "SDIO_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x150",
+            "size": 32,
+            "description": "SDIO Controller Clock Control"
+        },
+        {
+            "name": "UART_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x154",
+            "size": 32,
+            "description": "UART Controller Clock Control",
+            "fields": [
+                {
+                    "name": "CLKACT0",
+                    "bit_range": "0",
+                    "description": "UART 0 reference clock contrl",
+                    "default_value": 1
+                },
+                {
+                    "name": "CLKACT1",
+                    "bit_range": "1",
+                    "description": "UART 1 reference clock contrl",
+                    "default_value": 1
+                },
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Selects the PLL source to generate the clock.",
+                    "enums": {
+                        "name": "UartClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the UART clock source",
+                    "default_value": 63
+                }
+            ]
+        },
+        {
+            "name": "SPI_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x158",
+            "size": 32,
+            "description": "SPI Controller Clock Control"
+        },
+        {
+            "name": "CAN_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x15C",
+            "size": 32,
+            "description": "CAN Controller Clock Control"
+        },
+        {
+            "name": "CAN_MIOCLK_CTRL",
+            "access": "read-write",
+            "offset": "0x160",
+            "size": 32,
+            "description": "CAN MIO Clock Control"
+        },
+        {
+            "name": "DBG_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x164",
+            "size": 32,
+            "description": "SoC Debug Clock Control"
+        },
+        {
+            "name": "PCAP_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x168",
+            "size": 32,
+            "description": "PCAP Clock Control"
+        },
+        {
+            "name": "TOPSW_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x16C",
+            "size": 32,
+            "description": "Top Switch Clock Control"
+        },
+        {
+            "name": "FPGA0_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x170",
+            "size": 32,
+            "description": "FPGA 0 Clock Control",
+            "fields": [
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Select the source used to generate the clock",
+                    "enums": {
+                        "name": "FpgaClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR0",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the clock source",
+                    "default_value": 24
+                },
+                {
+                    "name": "DIVISOR1",
+                    "bit_range": "[25:20]",
+                    "description": "Frequency divisor for the clock source. Second cascade divide",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "FPGA0_THR_CTRL",
+            "access": "read-write",
+            "offset": "0x174",
+            "size": 32,
+            "description": "FPGA 0 Clock Throttle Control"
+        },
+        {
+            "name": "FPGA0_THR_CNT",
+            "access": "read-write",
+            "offset": "0x178",
+            "size": 32,
+            "description": "FPGA 0 Clock Throttle Count"
+        },
+        {
+            "name": "FPGA0_THR_STA",
+            "access": "read-only",
+            "offset": "0x17C",
+            "size": 32,
+            "description": "FPGA 0 Clock Throttle Status"
+        },
+        {
+            "name": "FPGA1_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x180",
+            "size": 32,
+            "description": "FPGA 1 Clock Control",
+            "fields": [
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Select the source used to generate the clock",
+                    "enums": {
+                        "name": "FpgaClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR0",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the clock source",
+                    "default_value": 24
+                },
+                {
+                    "name": "DIVISOR1",
+                    "bit_range": "[25:20]",
+                    "description": "Frequency divisor for the clock source. Second cascade divide",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "FPGA1_THR_CTRL",
+            "access": "read-write",
+            "offset": "0x184",
+            "size": 32,
+            "description": "FPGA 1 Clock Throttle Control"
+        },
+        {
+            "name": "FPGA1_THR_CNT",
+            "access": "read-write",
+            "offset": "0x188",
+            "size": 32,
+            "description": "FPGA 1 Clock Throttle Count"
+        },
+        {
+            "name": "FPGA1_THR_STA",
+            "access": "read-only",
+            "offset": "0x18C",
+            "size": 32,
+            "description": "FPGA 1 Clock Throttle Status"
+        },
+        {
+            "name": "FPGA2_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x190",
+            "size": 32,
+            "description": "FPGA 2 Clock Control",
+            "fields": [
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Select the source used to generate the clock",
+                    "enums": {
+                        "name": "FpgaClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR0",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the clock source",
+                    "default_value": 24
+                },
+                {
+                    "name": "DIVISOR1",
+                    "bit_range": "[25:20]",
+                    "description": "Frequency divisor for the clock source. Second cascade divide",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "FPGA2_THR_CTRL",
+            "access": "read-write",
+            "offset": "0x194",
+            "size": 32,
+            "description": "FPGA 2 Clock Throttle Control"
+        },
+        {
+            "name": "FPGA2_THR_CNT",
+            "access": "read-write",
+            "offset": "0x198",
+            "size": 32,
+            "description": "FPGA 2 Clock Throttle Count"
+        },
+        {
+            "name": "FPGA2_THR_STA",
+            "access": "read-only",
+            "offset": "0x19C",
+            "size": 32,
+            "description": "FPGA 2 Clock Throttle Status"
+        },
+        {
+            "name": "FPGA3_CLK_CTRL",
+            "access": "read-write",
+            "offset": "0x1A0",
+            "size": 32,
+            "description": "FPGA 3 Clock Control",
+            "fields": [
+                {
+                    "name": "SRCSEL",
+                    "bit_range": "[5:4]",
+                    "description": "Select the source used to generate the clock",
+                    "enums": {
+                        "name": "FpgaClockSource",
+                        "values": [
+                            {
+                                "name": "ARM_PLL",
+                                "description": "ARM PLL clock source",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "DDR_PLL",
+                                "description": "DDR PLL clock source",
+                                "value": "0b10"
+                            },
+                            {
+                                "name": "IO_PLL",
+                                "description": "IO PLL clock source",
+                                "value": "0b11"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "DIVISOR0",
+                    "bit_range": "[13:8]",
+                    "description": "Frequency divisor for the clock source",
+                    "default_value": 24
+                },
+                {
+                    "name": "DIVISOR1",
+                    "bit_range": "[25:20]",
+                    "description": "Frequency divisor for the clock source. Second cascade divide",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "FPGA3_THR_CTRL",
+            "access": "read-write",
+            "offset": "0x1A4",
+            "size": 32,
+            "description": "FPGA 3 Clock Throttle Control"
+        },
+        {
+            "name": "FPGA3_THR_CNT",
+            "access": "read-write",
+            "offset": "0x1A8",
+            "size": 32,
+            "description": "FPGA 3 Clock Throttle Count"
+        },
+        {
+            "name": "FPGA3_THR_STA",
+            "access": "read-only",
+            "offset": "0x1AC",
+            "size": 32,
+            "description": "FPGA 3 Clock Throttle Status"
+        },
+        {
+            "name": "CLK_621_TRUE",
+            "access": "read-only",
+            "offset": "0x1C4",
+            "size": 32,
+            "description": "CPU CLock Ratio Mode select",
+            "fields": [
+                {
+                    "name": "CLK_621_TRUE",
+                    "bit_range": "0",
+                    "description": "CPU CLock Ratio Mode select. 0: 4:2:1, 1: 6:2:1",
+                    "default_value": 1
+                }
+            ]
+        },
+        {
+            "name": "PSS_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x200",
+            "size": 32,
+            "description": "PSS Reset Control",
+            "fields": [
+                {
+                    "name": "SOFT_RST",
+                    "bit_range": "0",
+                    "description": "Processing System software reset control signal"
+                }
+            ]
+        },
+        {
+            "name": "DDR_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x204",
+            "size": 32,
+            "description": "DDR Reset Control"
+        },
+        {
+            "name": "TOPSW_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x208",
+            "size": 32,
+            "description": "Top Switch Reset Control"
+        },
+        {
+            "name": "DMAC_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x20C",
+            "size": 32,
+            "description": "DMA Controller Reset Control"
+        },
+        {
+            "name": "USB_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x210",
+            "size": 32,
+            "description": "USB Reset Control"
+        },
+        {
+            "name": "GEM_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x214",
+            "size": 32,
+            "description": "Gigabit Ethernet Reset Control"
+        },
+        {
+            "name": "SDIO_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x218",
+            "size": 32,
+            "description": "SDIO Reset Control"
+        },
+        {
+            "name": "SPI_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x21C",
+            "size": 32,
+            "description": "SPI Reset Control"
+        },
+        {
+            "name": "CAN_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x220",
+            "size": 32,
+            "description": "CAN Reset Control"
+        },
+        {
+            "name": "I2C_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x224",
+            "size": 32,
+            "description": "I2C Reset Control"
+        },
+        {
+            "name": "UART_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x228",
+            "size": 32,
+            "description": "UART Reset Control",
+            "fields": [
+                {
+                    "name": "UART0_CPU1X_RST",
+                    "bit_range": "0",
+                    "description": "UART 0 CPU 1x reset control"
+                },
+                {
+                    "name": "UART1_CPU1X_RST",
+                    "bit_range": "1",
+                    "description": "UART 1 CPU 1x reset control"
+                },
+                {
+                    "name": "UART0_REF_RST",
+                    "bit_range": "2",
+                    "description": "UART 0 reference software reset"
+                },
+                {
+                    "name": "UART1_REF_RST",
+                    "bit_range": "3",
+                    "description": "UART 1 reference software reset"
+                }
+            ]
+        },
+        {
+            "name": "GPIO_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x22C",
+            "size": 32,
+            "description": "GPIO Reset Control"
+        },
+        {
+            "name": "LQSPI_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x230",
+            "size": 32,
+            "description": "Quad SPI Reset Control"
+        },
+        {
+            "name": "SMC_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x234",
+            "size": 32,
+            "description": "Static Memory Controller Reset Control"
+        },
+        {
+            "name": "OCM_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x238",
+            "size": 32,
+            "description": "On-Chip Memory Reset Control"
+        },
+        {
+            "name": "FPGA_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x240",
+            "size": 32,
+            "description": "FPGA Reset Control",
+            "fields": [
+                {
+                    "name": "FPGA0_OUT_RST",
+                    "bit_range": "0",
+                    "description": "FPGA 0 output reset control"
+                },
+                {
+                    "name": "FPGA1_OUT_RST",
+                    "bit_range": "1",
+                    "description": "FPGA 1 output reset control"
+                },
+                {
+                    "name": "FPGA2_OUT_RST",
+                    "bit_range": "2",
+                    "description": "FPGA 2 output reset control"
+                },
+                {
+                    "name": "FPGA3_OUT_RST",
+                    "bit_range": "3",
+                    "description": "FPGA 3 output reset control"
+                }
+            ]
+        },
+        {
+            "name": "A9_CPU_RST_CTRL",
+            "access": "read-write",
+            "offset": "0x244",
+            "size": 32,
+            "description": "A9 CPU Reset Control",
+            "fields": [
+                {
+                    "name": "A9_RST0",
+                    "bit_range": "0",
+                    "description": "CPU 0 software reset control"
+                },
+                {
+                    "name": "A9_RST1",
+                    "bit_range": "1",
+                    "description": "CPU 1 software reset control"
+                },
+                {
+                    "name": "A9_CLKSTOP0",
+                    "bit_range": "4",
+                    "description": "CPU 0 clock stop control"
+                },
+                {
+                    "name": "A9_CLKSTOP1",
+                    "bit_range": "5",
+                    "description": "CPU 1 clock stop control"
+                },
+                {
+                    "name": "PERI_RST",
+                    "bit_range": "8",
+                    "description": "Peripheral reset control"
+                }
+            ]
+        },
+        {
+            "name": "RS_AWDT_CTRL",
+            "access": "read-write",
+            "offset": "0x24C",
+            "size": 32,
+            "description": "Watchdog Timer Control"
+        },
+        {
+            "name": "REBOOT_STATUS",
+            "access": "read-only",
+            "offset": "0x258",
+            "size": 32,
+            "description": "Reboot Status"
+        },
+        {
+            "name": "BOOT_MODE",
+            "access": "read-only",
+            "offset": "0x25C",
+            "size": 32,
+            "description": "Boot Mode Strapping Pins",
+            "fields": [
+                {
+                    "name": "BOOT_MODE",
+                    "bit_range": "[3:0]",
+                    "description": "Boot mode strapping pins",
+                    "enums": {
+                        "name": "BootMode",
+                        "values": [
+                            {
+                                "name": "JTAG",
+                                "description": "JTAG boot mode",
+                                "value": "0b000",
+                                "is_default": true
+                            },
+                            {
+                                "name": "NOR",
+                                "description": "NOR boot mode",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "NAND",
+                                "description": "NAND boot mode",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "QUAD_SPI",
+                                "description": "Quad SPI boot mode",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "SD",
+                                "description": "SD boot mode",
+                                "value": "0b101"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "APU_CTRL",
+            "access": "read-write",
+            "offset": "0x300",
+            "size": 32,
+            "description": "APU Control"
+        },
+        {
+            "name": "WDT_CLK_SEL",
+            "access": "read-write",
+            "offset": "0x304",
+            "size": 32,
+            "description": "Watchdog Timer Clock Select"
+        },
+        {
+            "name": "TZ_DMA_NS",
+            "access": "read-write",
+            "offset": "0x440",
+            "size": 32,
+            "description": "TrustZone DMA Non-Secure"
+        },
+        {
+            "name": "TZ_DMA_IRQ_NS",
+            "access": "read-write",
+            "offset": "0x444",
+            "size": 32,
+            "description": "TrustZone DMA IRQ Non-Secure"
+        },
+        {
+            "name": "TZ_DMA_PERIPH_NS",
+            "access": "read-write",
+            "offset": "0x448",
+            "size": 32,
+            "description": "TrustZone DMA Peripheral Non-Secure"
+        },
+        {
+            "name": "PSS_IDCODE",
+            "access": "read-only",
+            "offset": "0x530",
+            "size": 32,
+            "description": "PSS IDCODE"
+        },
+        {
+            "name": "DDR_URGENT",
+            "access": "read-write",
+            "offset": "0x600",
+            "size": 32,
+            "description": "DDR Urgent Control"
+        },
+        {
+            "name": "DDR_CAL_START",
+            "access": "read-write",
+            "offset": "0x60C",
+            "size": 32,
+            "description": "DDR Calibration Start"
+        },
+        {
+            "name": "DDR_REF_START",
+            "access": "read-write",
+            "offset": "0x614",
+            "size": 32,
+            "description": "DDR Refresh Start"
+        },
+        {
+            "name": "DDR_CMD_STA",
+            "access": "read-only",
+            "offset": "0x618",
+            "size": 32,
+            "description": "DDR Command Status"
+        },
+        {
+            "name": "DDR_URGENT_SEL",
+            "access": "read-write",
+            "offset": "0x61C",
+            "size": 32,
+            "description": "DDR Urgent Select"
+        },
+        {
+            "name": "DDR_DFI_STATUS",
+            "access": "read-only",
+            "offset": "0x620",
+            "size": 32,
+            "description": "DDR DFI Status"
+        },
+        {
+            "name": "MIO_PIN_00",
+            "access": "read-write",
+            "offset": "0x700",
+            "size": 32,
+            "description": "MIO Pin 0 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_01",
+            "access": "read-write",
+            "offset": "0x704",
+            "size": 32,
+            "description": "MIO Pin 1 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_02",
+            "access": "read-write",
+            "offset": "0x708",
+            "size": 32,
+            "description": "MIO Pin 2 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCRV",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_03",
+            "access": "read-write",
+            "offset": "0x70C",
+            "size": 32,
+            "description": "MIO Pin 3 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_04",
+            "access": "read-write",
+            "offset": "0x710",
+            "size": 32,
+            "description": "MIO Pin 4 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_05",
+            "access": "read-write",
+            "offset": "0x714",
+            "size": 32,
+            "description": "MIO Pin 5 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_06",
+            "access": "read-write",
+            "offset": "0x718",
+            "size": 32,
+            "description": "MIO Pin 6 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_07",
+            "access": "read-write",
+            "offset": "0x71C",
+            "size": 32,
+            "description": "MIO Pin 7 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_08",
+            "access": "read-write",
+            "offset": "0x720",
+            "size": 32,
+            "description": "MIO Pin 8 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_09",
+            "access": "read-write",
+            "offset": "0x724",
+            "size": 32,
+            "description": "MIO Pin 9 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_10",
+            "access": "read-write",
+            "offset": "0x728",
+            "size": 32,
+            "description": "MIO Pin 10 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_11",
+            "access": "read-write",
+            "offset": "0x72C",
+            "size": 32,
+            "description": "MIO Pin 11 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_12",
+            "access": "read-write",
+            "offset": "0x730",
+            "size": 32,
+            "description": "MIO Pin 12 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_13",
+            "access": "read-write",
+            "offset": "0x734",
+            "size": 32,
+            "description": "MIO Pin 13 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_14",
+            "access": "read-write",
+            "offset": "0x738",
+            "size": 32,
+            "description": "MIO Pin 14 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        },
+        {
+            "name": "MIO_PIN_15",
+            "access": "read-write",
+            "offset": "0x73C",
+            "size": 32,
+            "description": "MIO Pin 15 Control",
+            "fields": [
+                {
+                    "name": "TRI_ENABLE",
+                    "bit_range": "0",
+                    "description": "Tri-state enable control",
+                    "default_value": 1
+                },
+                {
+                    "name": "L0_SEL",
+                    "bit_range": "1",
+                    "description": "Level 0 Mux select"
+                },
+                {
+                    "name": "L1_SEL",
+                    "bit_range": "2",
+                    "description": "Level 1 Mux select"
+                },
+                {
+                    "name": "L2_SEL",
+                    "bit_range": "[4:3]",
+                    "description": "Level 2 Mux select"
+                },
+                {
+                    "name": "L3_SEL",
+                    "bit_range": "[7:5]",
+                    "description": "Level 3 Mux select"
+                },
+                {
+                    "name": "SPEED",
+                    "bit_range": "8",
+                    "description": "Speed select"
+                },
+                {
+                    "name": "IO_TYPE",
+                    "bit_range": "[11:9]",
+                    "description": "IO Type select",
+                    "enums": {
+                        "name": "IoType",
+                        "values": [
+                            {
+                                "name": "LVCMOS18",
+                                "description": "LVCMOS18",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "LVCMOS25",
+                                "description": "LVCMOS25",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "LVCMOS33",
+                                "description": "LVCMOS33",
+                                "value": "0b011",
+                                "is_default": true
+                            },
+                            {
+                                "name": "HSTL",
+                                "description": "HSTL",
+                                "value": "0b100"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "PULLUP",
+                    "bit_range": "12",
+                    "description": "Enables Pullup on IO Buffer pin",
+                    "default_value": 1
+                },
+                {
+                    "name": "DISABLE_RCVR",
+                    "bit_range": "13",
+                    "description": "Disable Receiver"
+                }
+            ]
+        }
+    ]
+}

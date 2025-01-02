@@ -1,7 +1,10 @@
 #![no_std]
+#![allow(unused_mut)]
 pub use bit_field::BitField;
 pub use volatile_register::{RO, WO, RW};
 pub mod uart;
+pub mod slcr;
+pub mod l2_cache;
 /// Converts a builder struct into raw bits and vice versa
 ///
 /// RawType: The raw bits type (a primitive integer type)

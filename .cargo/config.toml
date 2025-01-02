@@ -2,7 +2,7 @@
 target = "zynq-target.json"
 
 [target.zynq-target]
-rustflags = "-C link-arg=-Tmemory.x"
+rustflags = "-C link-arg=-Tfsbl.x"
 
 [unstable]
 build-std = ["core", "compiler_builtins", "alloc"]

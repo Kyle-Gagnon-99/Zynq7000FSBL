@@ -1,0 +1,10 @@
+{
+    "$schema": "../../RustPACGen/manifest-schema.json",
+    "name": "zynq-pac",
+    "register_size": 32,
+    "peripherals": [
+        "peripherals/uart.json",
+        "peripherals/slcr.json",
+        "peripherals/l2cache.json"
+    ]
+}

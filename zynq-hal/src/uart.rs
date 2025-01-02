@@ -1,6 +1,7 @@
 use core::fmt;
 
 use zynq_pac::{
+    slcr::{mio_pin_14, mio_pin_15, uart_clk_ctrl::UartClkCtrlBuilder, uart_rst_ctrl},
     uart::{
         baud_div::BaudDivRegister,
         baud_gen::BaudGenRegister,
@@ -11,12 +12,51 @@ use zynq_pac::{
     RegisterRO, RegisterRW, RegisterWO,
 };
 
+use crate::slcr::Slcr;
+
 pub struct Uart {
     regs: &'static mut RegisterBlock,
 }
 
 impl Uart {
     pub fn uart0() -> Self {
+        // Route UART 0 RxD/TxD Signals to MIO pins
+        // Tx Pin
+        Slcr::unlocked(|slcr| {
+            // Tx Pin
+            slcr.mio_pin_15.write(
+                mio_pin_15::MioPin15Builder::default()
+                    .with_l3_sel(0b111)
+                    .with_io_type(mio_pin_15::IoType::Lvcmos33)
+                    .with_pullup(true),
+            );
+
+            // Rx Pin
+            slcr.mio_pin_14.write(
+                mio_pin_14::MioPin14Builder::default()
+                    .with_l3_sel(0b111)
+                    .with_tri_enable(true)
+                    .with_io_type(mio_pin_14::IoType::Lvcmos33)
+                    .with_pullup(true),
+            );
+        });
+
+        Slcr::unlocked(|slcr| {
+            slcr.uart_rst_ctrl.write(
+                uart_rst_ctrl::UartRstCtrlBuilder::default()
+                    .with_uart0_ref_rst(true)
+                    .with_uart0_cpu1_x_rst(true),
+            );
+            slcr.aper_clk_ctrl
+                .modify(|builder| builder.with_uart0_cpu_1_xclkact(true));
+            slcr.uart_clk_ctrl.write(
+                UartClkCtrlBuilder::default()
+                    .with_divisor(0x14)
+                    .with_srcsel(zynq_pac::slcr::uart_clk_ctrl::UartClockSource::IoPll)
+                    .with_clkact0(true),
+            );
+        });
+
         let mut self_ = Self {
             regs: RegisterBlock::uart0(),
         };

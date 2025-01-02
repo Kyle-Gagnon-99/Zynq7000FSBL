@@ -1,0 +1,1122 @@
+{
+    "$schema": "../../../RustPACGen/peripheral-schema.json",
+    "name": "L2CACHE",
+    "base_address": "0xF8F02000",
+    "description": "L2 Cache Controller",
+    "registers": [
+        {
+            "name": "REG0_CACHE_ID",
+            "description": "Cache ID Register",
+            "offset": "0x0",
+            "size": 32,
+            "reset_value": "0x410000C8",
+            "access": "read-only",
+            "fields": [
+                {
+                    "name": "RTL_RELEASE",
+                    "bit_range": "[5:0]",
+                    "access": "read-only",
+                    "description": "RTL release R3p2",
+                    "default_value": 8
+                },
+                {
+                    "name": "PART_NUM",
+                    "bit_range": "[9:6]",
+                    "description": "Part number",
+                    "access": "read-only",
+                    "default_value": 3
+                },
+                {
+                    "name": "CACHE_ID",
+                    "bit_range": "[15:10]",
+                    "access": "read-only",
+                    "description": "Cache ID",
+                    "default_value": 0
+                },
+                {
+                    "name": "IMPLEMENTER",
+                    "bit_range": "[31:24]",
+                    "access": "read-only",
+                    "description": "Implementer (ARM)",
+                    "default_value": 65
+                }
+            ]
+        },
+        {
+            "name": "REG0_CACHE_TYPE",
+            "description": "Cache Type Register. Returns the 32-bit cache type.",
+            "offset": "0x4",
+            "size": 32,
+            "access": "read-only",
+            "fields": [
+                {
+                    "name": "L2_CACHE_LINE_LEN_L",
+                    "bit_range": "[1:0]",
+                    "access": "read-only",
+                    "description": "L2 cache line length - 00-32 bytes"
+                },
+                {
+                    "name": "L2_ASSOC_L",
+                    "bit_range": "6",
+                    "access": "read-only",
+                    "description": "Read from Auxiliary Control Register bit 16"
+                },
+                {
+                    "name": "LSIZE_MID",
+                    "bit_range": "[10:8]",
+                    "access": "read-only",
+                    "description": "L2 cache way size Read from Auxiliary Control Register bits 19:17"
+                },
+                {
+                    "name": "L2_CACHE_LINE_LEN_D",
+                    "bit_range": "[13:12]",
+                    "access": "read-only",
+                    "description": "L2 cache line length - 00-32 bytes"
+                },
+                {
+                    "name": "L2_ASSOC_D",
+                    "bit_range": "18",
+                    "access": "read-only",
+                    "description": "Read from Auxiliary Control Register bit 16"
+                },
+                {
+                    "name": "DSIZE_MID",
+                    "bit_range": "[22:20]",
+                    "access": "read-only",
+                    "description": "L2 cache way size Read from Auxiliary Control Register bits 19:17"
+                },
+                {
+                    "name": "CTYPE",
+                    "bit_range": "[28:25]",
+                    "access": "read-only",
+                    "description": "Cache type"
+                },
+                {
+                    "name": "DATA_BANKING",
+                    "bit_range": "31",
+                    "access": "read-only",
+                    "description": "Data banking"
+                }
+            ]
+        },
+        {
+            "name": "REG1_CONTROL",
+            "description": "Control Register",
+            "offset": "0x100",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "L2_ENABLE",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "L2 cache enable"
+                }
+            ]
+        },
+        {
+            "name": "REG1_AUX_CONTROL",
+            "description": "Auxiliary Control Register",
+            "offset": "0x104",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "FULL_LINE_ZERO_ENABLE",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Full line of zeros enable"
+                },
+                {
+                    "name": "HIG_PR_SO_DEV_RD_EN",
+                    "bit_range": "10",
+                    "access": "read-write",
+                    "description": "High priotiry for SO and Dev reads enable"
+                },
+                {
+                    "name": "STORE_BUFF_DEV_LIM_EN",
+                    "bit_range": "11",
+                    "access": "read-write",
+                    "description": "Store buffer device limit enable"
+                },
+                {
+                    "name": "EX_CACHE_CONFIG",
+                    "bit_range": "12",
+                    "access": "read-write",
+                    "description": "Exclusive cache configuration"
+                },
+                {
+                    "name": "SHARED_ATTR_INVA_EN",
+                    "bit_range": "13",
+                    "access": "read-write",
+                    "description": "Shared attribute invalidation"
+                },
+                {
+                    "name": "ASSOCIATIVITY",
+                    "bit_range": "16",
+                    "access": "read-write",
+                    "description": "Associativity"
+                },
+                {
+                    "name": "WAY_SIZE",
+                    "bit_range": "[19:17]",
+                    "access": "read-write",
+                    "description": "Way size",
+                    "default_value": 3,
+                    "enums": {
+                        "name": "WaySize",
+                        "values": [
+                            {
+                                "name": "SixteenKB",
+                                "description": "16KB",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThirtyTwoKB",
+                                "description": "32KB",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "SixtyFourKB",
+                                "value": "0b011",
+                                "description": "64KB",
+                                "is_default": true
+                            },
+                            {
+                                "name": "OneTwentyEightKB",
+                                "description": "128KB",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "TwoFiftySixKB",
+                                "description": "256KB",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "FiveTwelveKB",
+                                "description": "512KB",
+                                "value": "0b110"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "EVENT_MON_BUS_EN",
+                    "bit_range": "20",
+                    "access": "read-write",
+                    "description": "Event monitor bus enable"
+                },
+                {
+                    "name": "PARITY_EN",
+                    "bit_range": "21",
+                    "access": "read-write",
+                    "description": "Parity enable"
+                },
+                {
+                    "name": "SHARED_ATTR_OVERRIDE_EN",
+                    "bit_range": "22",
+                    "access": "read-write",
+                    "description": "Shared attribute override enable"
+                },
+                {
+                    "name": "FORCE_WRITE_ALLOC",
+                    "bit_range": "[24:23]",
+                    "access": "read-write",
+                    "description": "Force write allocate",
+                    "default_value": 0,
+                    "enums": {
+                        "name": "ForceWriteAllocate",
+                        "values": [
+                            {
+                                "name": "UseAWCACHE",
+                                "description": "Use AWCACHE",
+                                "value": "0b00",
+                                "is_default": true
+                            },
+                            {
+                                "name": "ForceNoAllocate",
+                                "description": "Force no allocate",
+                                "value": "0b01"
+                            },
+                            {
+                                "name": "OverrideAWCACHE",
+                                "description": "Override AWCACHE",
+                                "value": "0b10"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "CACHE_REPLACE_POLICY",
+                    "bit_range": "25",
+                    "access": "read-write",
+                    "description": "Cache replacement policy",
+                    "default_value": 1
+                },
+                {
+                    "name": "NONSEC_LOCKDOWN_EN",
+                    "bit_range": "26",
+                    "access": "read-write",
+                    "description": "Non-secure lockdown enable"
+                },
+                {
+                    "name": "NONSEC_INTE_ACCESS_CTRL",
+                    "bit_range": "27",
+                    "access": "read-write",
+                    "description": "Non-secure interrupt access control"
+                },
+                {
+                    "name": "DATA_PREFETCH_EN",
+                    "bit_range": "28",
+                    "access": "read-write",
+                    "description": "Data prefetch enable"
+                },
+                {
+                    "name": "INSTR_PREFETCH_EN",
+                    "bit_range": "29",
+                    "access": "read-write",
+                    "description": "Instruction prefetch enable"
+                },
+                {
+                    "name": "EARLY_BRESP_EN",
+                    "bit_range": "30",
+                    "access": "read-write",
+                    "description": "Early BRESP enable"
+                }
+            ]
+        },
+        {
+            "name": "REG1_TAG_RAM_CONTROL",
+            "description": "Tag RAM Control Register",
+            "offset": "0x108",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "RAM_SETUP_LAT",
+                    "bit_range": "[2:0]",
+                    "access": "read-write",
+                    "description": "RAM setup latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamSetupLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "RAM_RD_ACCESS_LAT",
+                    "bit_range": "[6:4]",
+                    "access": "read-write",
+                    "description": "RAM read access latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamReadAccessLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "RAM_WR_ACCESS_LAT",
+                    "bit_range": "[10:8]",
+                    "access": "read-write",
+                    "description": "RAM write access latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamWriteAccessLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "REG1_DATA_RAM_CONTROL",
+            "description": "Configures data RAM latencies",
+            "offset": "0x10C",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "RAM_SETUP_LAT",
+                    "bit_range": "[2:0]",
+                    "access": "read-write",
+                    "description": "RAM setup latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamSetupLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "RAM_RD_ACCESS_LAT",
+                    "bit_range": "[6:4]",
+                    "access": "read-write",
+                    "description": "RAM read access latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamReadAccessLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "RAM_WR_ACCESS_LAT",
+                    "bit_range": "[10:8]",
+                    "access": "read-write",
+                    "description": "RAM write access latency",
+                    "default_value": 7,
+                    "enums": {
+                        "name": "RamWriteAccessLatency",
+                        "values": [
+                            {
+                                "name": "OneCycle",
+                                "description": "1 cycle",
+                                "value": "0b000"
+                            },
+                            {
+                                "name": "TwoCycles",
+                                "description": "2 cycles",
+                                "value": "0b001"
+                            },
+                            {
+                                "name": "ThreeCycles",
+                                "description": "3 cycles",
+                                "value": "0b010"
+                            },
+                            {
+                                "name": "FourCycles",
+                                "description": "4 cycles",
+                                "value": "0b011"
+                            },
+                            {
+                                "name": "FiveCycles",
+                                "description": "5 cycles",
+                                "value": "0b100"
+                            },
+                            {
+                                "name": "SixCycles",
+                                "description": "6 cycles",
+                                "value": "0b101"
+                            },
+                            {
+                                "name": "SevenCycles",
+                                "description": "7 cycles",
+                                "value": "0b110"
+                            },
+                            {
+                                "name": "EightCycles",
+                                "description": "8 cycles",
+                                "value": "0b111",
+                                "is_default": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "REG2_EV_COUNTER_CTRL",
+            "description": "Permits the event counters to be enabled and reset",
+            "offset": "0x200",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "EV_CTR_EN",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Event counter enable"
+                },
+                {
+                    "name": "COUNTER_RESET",
+                    "bit_range": "1",
+                    "access": "read-write",
+                    "description": "Counter reset"
+                }
+            ]
+        },
+        {
+            "name": "REG2_EV_COUNTER1_CFG",
+            "description": "Enables event counter 1 to be driven by a specific event. Counter 1 increments when the event occurs.",
+            "offset": "0x204",
+            "access": "read-write",
+            "size": 32,
+            "fields": [
+                {
+                    "name": "EV_CTR_INTR_GEN",
+                    "bit_range": "[1:0]",
+                    "access": "read-write",
+                    "description": "Event counter interrupt generation"
+                },
+                {
+                    "name": "CTR_EV_SRC",
+                    "bit_range": "[5:2]",
+                    "access": "read-write",
+                    "description": "Counter event source"
+                }
+            ]
+        },
+        {
+            "name": "REG2_EV_COUNTER0_CFG",
+            "description": "Enables event counter 0 to be driven by a specific event. Counter 0 increments when the event occurs.",
+            "offset": "0x208",
+            "access": "read-write",
+            "size": 32,
+            "fields": [
+                {
+                    "name": "EV_CTR_INTR_GEN",
+                    "bit_range": "[1:0]",
+                    "access": "read-write",
+                    "description": "Event counter interrupt generation"
+                },
+                {
+                    "name": "CTR_EV_SRC",
+                    "bit_range": "[5:2]",
+                    "access": "read-write",
+                    "description": "Counter event source"
+                }
+            ]
+        },
+        {
+            "name": "REG2_EV_COUNTER1",
+            "description": "Event counter 1",
+            "offset": "0x20C",
+            "size": 32,
+            "access": "read-only"
+        },
+        {
+            "name": "REG2_EV_COUNTER0",
+            "description": "Event counter 0",
+            "offset": "0x210",
+            "size": 32,
+            "access": "read-only"
+        },
+        {
+            "name": "REG2_INT_MASK",
+            "description": "Interrupt Mask Register",
+            "offset": "0x214",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "ECNTR",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Event counter 1/0 overflow increment"
+                },
+                {
+                    "name": "PARRT",
+                    "bit_range": "1",
+                    "access": "read-write",
+                    "description": "Parity error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "PARRD",
+                    "bit_range": "2",
+                    "access": "read-write",
+                    "description": "Parity error on L2 data RAM, Read"
+                },
+                {
+                    "name": "ERRWT",
+                    "bit_range": "3",
+                    "access": "read-write",
+                    "description": "Error on L2 tag RAM, Write"
+                },
+                {
+                    "name": "ERRWD",
+                    "bit_range": "4",
+                    "access": "read-write",
+                    "description": "Error on L2 data RAM, Write"
+                },
+                {
+                    "name": "ERRRT",
+                    "bit_range": "5",
+                    "access": "read-write",
+                    "description": "Error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "ERRRD",
+                    "bit_range": "6",
+                    "access": "read-write",
+                    "description": "Error on L2 data RAM, Read"
+                },
+                {
+                    "name": "SLVERR",
+                    "bit_range": "7",
+                    "access": "read-write",
+                    "description": "Slave error from L3 interconnect"
+                },
+                {
+                    "name": "DECERR",
+                    "bit_range": "8",
+                    "access": "read-write",
+                    "description": "Decode error from L3 interconnect"
+                }
+            ]
+        },
+        {
+            "name": "REG2_INT_MASK_STATUS",
+            "description": "Interrupt Mask Status Register",
+            "offset": "0x218",
+            "size": 32,
+            "access": "read-only",
+            "fields": [
+                {
+                    "name": "ECNTR",
+                    "bit_range": "0",
+                    "access": "read-only",
+                    "description": "Event counter 1/0 overflow increment"
+                },
+                {
+                    "name": "PARRT",
+                    "bit_range": "1",
+                    "access": "read-only",
+                    "description": "Parity error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "PARRD",
+                    "bit_range": "2",
+                    "access": "read-only",
+                    "description": "Parity error on L2 data RAM, Read"
+                },
+                {
+                    "name": "ERRWT",
+                    "bit_range": "3",
+                    "access": "read-only",
+                    "description": "Error on L2 tag RAM, Write"
+                },
+                {
+                    "name": "ERRWD",
+                    "bit_range": "4",
+                    "access": "read-only",
+                    "description": "Error on L2 data RAM, Write"
+                },
+                {
+                    "name": "ERRRT",
+                    "bit_range": "5",
+                    "access": "read-only",
+                    "description": "Error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "ERRRD",
+                    "bit_range": "6",
+                    "access": "read-only",
+                    "description": "Error on L2 data RAM, Read"
+                },
+                {
+                    "name": "SLVERR",
+                    "bit_range": "7",
+                    "access": "read-only",
+                    "description": "Slave error from L3 interconnect"
+                },
+                {
+                    "name": "DECERR",
+                    "bit_range": "8",
+                    "access": "read-only",
+                    "description": "Decode error from L3 interconnect"
+                }
+            ]
+        },
+        {
+            "name": "REG2_INT_RAW_STATUS",
+            "description": "The raw interrupt status register enables the interrupt status that excludes the masking logic",
+            "offset": "0x21C",
+            "size": 32,
+            "access": "read-only",
+            "fields": [
+                {
+                    "name": "ECNTR",
+                    "bit_range": "0",
+                    "access": "read-only",
+                    "description": "Event counter 1/0 overflow increment"
+                },
+                {
+                    "name": "PARRT",
+                    "bit_range": "1",
+                    "access": "read-only",
+                    "description": "Parity error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "PARRD",
+                    "bit_range": "2",
+                    "access": "read-only",
+                    "description": "Parity error on L2 data RAM, Read"
+                },
+                {
+                    "name": "ERRWT",
+                    "bit_range": "3",
+                    "access": "read-only",
+                    "description": "Error on L2 tag RAM, Write"
+                },
+                {
+                    "name": "ERRWD",
+                    "bit_range": "4",
+                    "access": "read-only",
+                    "description": "Error on L2 data RAM, Write"
+                },
+                {
+                    "name": "ERRRT",
+                    "bit_range": "5",
+                    "access": "read-only",
+                    "description": "Error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "ERRRD",
+                    "bit_range": "6",
+                    "access": "read-only",
+                    "description": "Error on L2 data RAM, Read"
+                },
+                {
+                    "name": "SLVERR",
+                    "bit_range": "7",
+                    "access": "read-only",
+                    "description": "Slave error from L3 interconnect"
+                },
+                {
+                    "name": "DECERR",
+                    "bit_range": "8",
+                    "access": "read-only",
+                    "description": "Decode error from L3 interconnect"
+                }
+            ]
+        },
+        {
+            "name": "REG2_INT_CLEAR",
+            "description": "Clears the raw interrupt status register bits",
+            "offset": "0x220",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "ECNTR",
+                    "bit_range": "0",
+                    "access": "write-to-clear",
+                    "description": "Event counter 1/0 overflow increment"
+                },
+                {
+                    "name": "PARRT",
+                    "bit_range": "1",
+                    "access": "write-to-clear",
+                    "description": "Parity error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "PARRD",
+                    "bit_range": "2",
+                    "access": "write-to-clear",
+                    "description": "Parity error on L2 data RAM, Read"
+                },
+                {
+                    "name": "ERRWT",
+                    "bit_range": "3",
+                    "access": "write-to-clear",
+                    "description": "Error on L2 tag RAM, Write"
+                },
+                {
+                    "name": "ERRWD",
+                    "bit_range": "4",
+                    "access": "write-to-clear",
+                    "description": "Error on L2 data RAM, Write"
+                },
+                {
+                    "name": "ERRRT",
+                    "bit_range": "5",
+                    "access": "write-to-clear",
+                    "description": "Error on L2 tag RAM, Read"
+                },
+                {
+                    "name": "ERRRD",
+                    "bit_range": "6",
+                    "access": "write-to-clear",
+                    "description": "Error on L2 data RAM, Read"
+                },
+                {
+                    "name": "SLVERR",
+                    "bit_range": "7",
+                    "access": "write-to-clear",
+                    "description": "Slave error from L3 interconnect"
+                },
+                {
+                    "name": "DECERR",
+                    "bit_range": "8",
+                    "access": "write-to-clear",
+                    "description": "Decode error from L3 interconnect"
+                }
+            ]
+        },
+        {
+            "name": "REG7_CACHE_SYNC",
+            "description": "Cache Sync Register",
+            "offset": "0x730",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "CACHE_SYNC",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Cache sync"
+                }
+            ]
+        },
+        {
+            "name": "REG7_INV_PA",
+            "description": "Invalidate line by PA",
+            "offset": "0x770",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG7_INV_WAY",
+            "description": "Invalidate by way",
+            "offset": "0x77C",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG7_CLEAN_PA",
+            "description": "Clean line by PA",
+            "offset": "0x7B0",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG7_CLEAN_INDEX",
+            "description": "Clean line by index",
+            "offset": "0x7B8",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "CACHE",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Cache"
+                },
+                {
+                    "name": "INDEX",
+                    "bit_range": "[11:5]",
+                    "access": "read-write",
+                    "description": "Index"
+                },
+                {
+                    "name": "WAY",
+                    "bit_range": "[30:28]",
+                    "access": "read-write",
+                    "description": "Way"
+                }
+            ]
+        },
+        {
+            "name": "REG7_CLEAN_WAY",
+            "description": "Clean by way",
+            "offset": "0x7BC",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG7_CLEAN_INV_PA",
+            "description": "Clean and invalidate line by PA",
+            "offset": "0x7F0",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG7_CLEAN_INV_INDEX",
+            "description": "Clean and invalidate line by index",
+            "offset": "0x7F8",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "CACHE",
+                    "bit_range": "0",
+                    "access": "read-write",
+                    "description": "Cache"
+                },
+                {
+                    "name": "INDEX",
+                    "bit_range": "[11:5]",
+                    "access": "read-write",
+                    "description": "Index"
+                },
+                {
+                    "name": "WAY",
+                    "bit_range": "[30:28]",
+                    "access": "read-write",
+                    "description": "Way"
+                }
+            ]
+        },
+        {
+            "name": "REG7_CLEAN_INV_WAY",
+            "description": "Clean and invalidate by way",
+            "offset": "0x7FC",
+            "size": 32,
+            "access": "read-write"
+        },
+        {
+            "name": "REG15_PREFETCH_CTRL",
+            "description": "Prefetch Control Register",
+            "offset": "0xF60",
+            "size": 32,
+            "access": "read-write",
+            "fields": [
+                {
+                    "name": "PREFETCH_OFFSET",
+                    "bit_range": "[4:0]",
+                    "access": "read-write",
+                    "description": "Prefetch offset"
+                },
+                {
+                    "name": "NOT_SAME_ID_ON_EXCL_SEQ_EN",
+                    "bit_range": "21",
+                    "access": "read-write",
+                    "description": "Not same ID on exclusive sequence enable"
+                },
+                {
+                    "name": "INCR_DOUBLE_LINEFILL_EN",
+                    "bit_range": "23",
+                    "access": "read-write",
+                    "description": "Increment double linefill enable"
+                },
+                {
+                    "name": "PREF_DROP_EN",
+                    "bit_range": "24",
+                    "access": "read-write",
+                    "description": "Prefetch drop enable"
+                },
+                {
+                    "name": "DOUBLE_LINEFILL_ON_WRAPREAD_EN",
+                    "bit_range": "27",
+                    "access": "read-write",
+                    "description": "Double linefill on wrap read enable"
+                },
+                {
+                    "name": "DATA_PREF_EN",
+                    "bit_range": "28",
+                    "access": "read-write",
+                    "description": "Data prefetch enable"
+                },
+                {
+                    "name": "INSTR_PREF_EN",
+                    "bit_range": "29",
+                    "access": "read-write",
+                    "description": "Instruction prefetch enable"
+                },
+                {
+                    "name": "DOUBLE_LINEFILL_EN",
+                    "bit_range": "30",
+                    "access": "read-write",
+                    "description": "Double linefill enable"
+                }
+            ]
+        }
+    ]
+}
